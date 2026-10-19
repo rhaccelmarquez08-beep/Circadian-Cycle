@@ -26,7 +26,7 @@ El proyecto ofrece una mirada detallada al comportamiento del "reloj biológico"
 ---
 
 ## 📂 Estructura del Proyecto
-=======
+
 ## Descripción del Proyecto
 
 **Dulces Sueños** es una aplicación interactiva multiplataforma (web y de escritorio) desarrollada en Python utilizando el framework **Flet**. Su interfaz está diseñada con una estética suave de tonos azul pastel, lavanda e ilustraciones conceptuales de descanso ("Dulces Sueños"). 
@@ -59,12 +59,12 @@ El proyecto tiene como objetivo modelar y explicar el comportamiento del ritmo c
 - Los archivos del proyecto, incluida la carpeta `assets/` con los recursos gráficos.
 
 ## Estructura del Proyecto
->>>>>>> c2cadd6b27b877c283c8ed9fb8dac7be9079b8bb
+
 
 ```text
 circadian_tracker/
 ├── assets/
-<<<<<<< HEAD
+
 │   └── descarga.jpg          # Recursos gráficos e imágenes ilustrativas
 ├── src/
 │   └── circadian_tracker/
@@ -85,7 +85,6 @@ Asegúrate de contar con un entorno virtual configurado y las dependencias insta
 ### 🌐 Modo Aplicación Web
 Para lanzar la aplicación en el navegador web:
 
-=======
 │   └── descarga.jpg          # Imagen ilustrativa (ovejita durmiendo en la luna)
 ├── src/
 │   └── circadian_tracker/
@@ -115,7 +114,7 @@ Para lanzar la aplicación en el navegador web:
 Para ejecutar las distintas modalidades de la aplicación, utiliza los siguientes comandos en la terminal (cada uno por separado):
 
 ### Modo Aplicación Web
->>>>>>> c2cadd6b27b877c283c8ed9fb8dac7be9079b8bb
+
 ```bash
 .venv\Scripts\flet run -w src/circadian_tracker/main.py
 ```
@@ -126,7 +125,7 @@ Para ejecutar la aplicación como ventana nativa de escritorio:
 
 =======
 ### Modo Aplicación de Escritorio
->>>>>>> c2cadd6b27b877c283c8ed9fb8dac7be9079b8bb
+
 ```bash
 .venv\Scripts\python.exe -m src.circadian_tracker.main
 ```
@@ -138,7 +137,7 @@ Para ejecutar la aplicación como ventana nativa de escritorio:
 
 - **Lenguaje:** Python 3.x
 - **Framework UI:** [Flet](https://flet.dev/) (Motor Flutter para Python)
-=======
+
 > **Nota:** La carpeta `assets/` debe conservar su ubicación en la raíz del proyecto para garantizar la correcta carga de las imágenes.
 
 ## Funcionamiento General
@@ -158,4 +157,3 @@ En las pestañas **Funciones** y **Desequilibrios**, el usuario puede informarse
 Su estructura basada en módulos facilita la incorporación de nuevas funciones, como personalización de cronotipos o seguimiento diario, en futuras versiones.
 Dulces Sueños es una aplicación funcional que integra simulación biológica, contenido informativo y navegación interactiva multiplataforma (web y escritorio).
 Su estructura basada en módulos facilita la incorporación de nuevas funciones, como personalización de cronotipos o seguimiento diario, en futuras versiones.
->>>>>>> c2cadd6b27b877c283c8ed9fb8dac7be9079b8bb
