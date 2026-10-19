@@ -1,9 +1,5 @@
 # Dulces Sueños - Rastreador de Ciclo Circadiano 🌙
 
-<<<<<<< HEAD
-=======
-
->>>>>>> e8911fb051bb11c6b1a16cff140ec06c43658bbf
 **Dulces Sueños** es una aplicación interactiva multiplataforma (Web y Escritorio) desarrollada en **Python** utilizando **Flet**. Diseñada con una paleta estética de tonos azul pastel, lavanda y elementos conceptuales de descanso, la aplicación permite visualizar y entender cómo opera el ritmo circadiano en el cuerpo humano en tiempo real.
 
 ---
