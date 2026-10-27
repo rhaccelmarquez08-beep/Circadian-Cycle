@@ -45,7 +45,7 @@ El proyecto está diseñado para funcionar tanto como **aplicación web** como *
 
 ## Estructura del Proyecto
 
-circadian_tracker/
+```circadian_tracker/
 ├── assets/
 │   └── descarga.jpg            # Recursos gráficos e imágenes ilustrativas
 ├── src/
@@ -57,7 +57,7 @@ circadian_tracker/
 ├── .env                        # Variables de entorno privadas (no se sube a git)
 ├── .gitignore                  # Archivos ignorados por Git
 ├── pyproject.toml              # Configuración y dependencias gestionadas con uv
-└── README.md                   # Documentación principal
+└── README.md                   # Documentación principal```
 
 ---
 
