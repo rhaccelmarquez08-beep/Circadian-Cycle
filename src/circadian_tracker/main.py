@@ -1,6 +1,6 @@
 """
-Módulo: main
-Descripción: Punto de entrada principal para lanzar la aplicación web/escritorio.
+Module: main
+Description: Main entry point to launch the web/desktop application.
 """
 
 import os
@@ -12,13 +12,13 @@ from ui_views import CircadianView
 
 
 def main(page: ft.Page):
-    """Inicializa la interfaz gráfica agregando la vista principal a la página."""
+    """Initializes the graphical user interface by adding the main view to the page."""
     view = CircadianView(page)
     page.add(view.build())
 
 
 if __name__ == "__main__":
-    # Apuntamos la carpeta assets de forma absoluta para que nunca falle
+    # Point to the assets folder absolutely so it never fails
     assets_path = os.path.abspath(
         os.path.join(os.path.dirname(__file__), "../../assets")
     )

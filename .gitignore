@@ -9,12 +9,12 @@ wheels/
 # Virtual environments
 .venv
 
-# Entorno virtual de uv
+# uv virtual environment
 .venv/
 
-# Caché de uv
+# uv and Ruff cache
 .ruff_cache/
 __pycache__/
 
-# URL de la API y clave de API (no se deben subir a repositorios públicos)
+# API URL and API key (do not commit to public repositories)
 .env
