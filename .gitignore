@@ -15,3 +15,6 @@ wheels/
 # Caché de uv
 .ruff_cache/
 __pycache__/
+
+# URL de la API y clave de API (no se deben subir a repositorios públicos)
+.env

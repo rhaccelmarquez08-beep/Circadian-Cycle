@@ -1,7 +1,7 @@
 """
-Módulo: ui_views
-Descripción: Componentes visuales y páginas de la aplicación con la temática
-             "Dulces Sueños" (colores azul pastel, lavanda y ovejita).
+Module: ui_views
+Description: Visual components and application pages with a "Sweet Dreams" theme.
+             Supports desktop and web execution.
 """
 
 import datetime
@@ -10,33 +10,33 @@ import sys
 import flet as ft
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from circadian_logic import CircadianPhase, CircadianTracker
+from circadian_logic import CircadianPhase, CircadianTracker, fetch_songs_from_api
 
-# Constantes de diseño y paleta de colores azul pastel
-BG_COLOR = "#EBF3FA"  # Azul pastel muy suave de fondo
-CARD_BG = "#FFFFFF"  # Tarjetas en blanco limpio
-PRIMARY_BLUE = "#4B6B94"  # Azul sereno principal
-ACCENT_LAVENDER = "#8A79AF"  # Lavanda para detalles
-PASTEL_CREAM = "#FFF8E7"  # Crema cálido
-TEXT_DARK = "#2C3E50"  # Texto oscuro para alta legibilidad
-TEXT_MUTED = "#6C7A89"  # Texto secundario
+# Design constants and pastel color palette
+BG_COLOR = "#EBF3FA"  # Very soft pastel blue background
+CARD_BG = "#FFFFFF"  # Clean white cards
+PRIMARY_BLUE = "#4B6B94"  # Main serene blue
+ACCENT_LAVENDER = "#8A79AF"  # Lavender for details
+PASTEL_CREAM = "#FFF8E7"  # Warm cream
+TEXT_DARK = "#2C3E50"  # Dark text for high readability
+TEXT_MUTED = "#6C7A89"  # Secondary text
 
 
 class CircadianView:
-    """Componente visual principal con navegación personalizada e interfaz temática."""
+    """Main visual component with custom navigation and themed UI for Web and Desktop."""
 
     def __init__(self, page: ft.Page):
         self.page = page
         self.tracker = CircadianTracker()
 
-        # Configuración estética global de la ventana
-        self.page.title = "Dulces Sueños - Rastreador de Ciclo Circadiano"
+        # Global window aesthetic setup (compatible with web and desktop)
+        self.page.title = "Sweet Dreams - Circadian Rhythm Tracker"
         self.page.window.width = 480
         self.page.window.height = 760
         self.page.bgcolor = BG_COLOR
         self.page.padding = 15
 
-        # Componentes interactivos del simulador
+        # Simulator interactive components
         current_hour = datetime.datetime.now().hour
         self.time_slider = ft.Slider(
             min=0,
@@ -65,11 +65,11 @@ class CircadianView:
         self.description_text = ft.Text(value="", size=14, color=TEXT_DARK)
         self.recommendation_text = ft.Text(value="", size=14, color=TEXT_DARK)
 
-        # Contenedor dinámico para el cuerpo de la pestaña activa
+        # Dynamic container for active tab body
         self.body_container = ft.Container(expand=True)
 
     def _build_home_tab(self) -> ft.Container:
-        """Página de Inicio con la ovejita y presentación general."""
+        """Home page with the sheep illustration and general presentation."""
         return ft.Container(
             padding=10,
             content=ft.Column(
@@ -83,7 +83,7 @@ class CircadianView:
                                     size=28,
                                 ),
                                 ft.Text(
-                                    "Dulces Sueños",
+                                    "Sweet Dreams",
                                     size=22,
                                     weight=ft.FontWeight.BOLD,
                                     color=PRIMARY_BLUE,
@@ -93,7 +93,6 @@ class CircadianView:
                         ),
                     ),
                     ft.Container(height=5),
-                    # Tarjeta central con la ovejita cargada desde assets
                     ft.Card(
                         elevation=2,
                         bgcolor=CARD_BG,
@@ -110,13 +109,13 @@ class CircadianView:
                                     ),
                                     ft.Container(height=5),
                                     ft.Text(
-                                        "¿Qué es el Ciclo Circadiano?",
+                                        "What is the Circadian Cycle?",
                                         size=17,
                                         weight=ft.FontWeight.BOLD,
                                         color=PRIMARY_BLUE,
                                     ),
                                     ft.Text(
-                                        "Es nuestro 'reloj biológico' interno de 24 horas que regula los patrones de sueño, la liberación de hormonas y la energía corporal.",
+                                        "It is our internal 24-hour 'biological clock' that regulates sleep patterns, hormone release, and body energy.",
                                         size=12,
                                         color=TEXT_DARK,
                                         text_align=ft.TextAlign.CENTER,
@@ -136,13 +135,13 @@ class CircadianView:
                             content=ft.Column(
                                 controls=[
                                     ft.Text(
-                                        "🌟 ¿Por qué es importante cuidarlo?",
+                                        "🌟 Why is it important to take care of it?",
                                         size=14,
                                         weight=ft.FontWeight.BOLD,
                                         color=PRIMARY_BLUE,
                                     ),
                                     ft.Text(
-                                        "Mantenerlo sincronizado mejora la calidad del descanso, optimiza la concentración diurna, equilibra el ánimo y fortalece el sistema inmunológico.",
+                                        "Keeping it synchronized improves rest quality, optimizes daytime focus, balances mood, and strengthens the immune system.",
                                         size=12,
                                         color=TEXT_DARK,
                                     ),
@@ -153,11 +152,12 @@ class CircadianView:
                 ],
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                 spacing=8,
+                scroll=ft.ScrollMode.AUTO,
             ),
         )
 
     def _build_simulator_tab(self) -> ft.Container:
-        """Página del Simulador e Interfaz de Etapas del Ciclo."""
+        """Simulator page and Cycle Stages interface."""
         self.update_phase_display(int(self.time_slider.value))
 
         return ft.Container(
@@ -165,13 +165,13 @@ class CircadianView:
             content=ft.Column(
                 controls=[
                     ft.Text(
-                        "Etapas del Ciclo",
+                        "Cycle Stages",
                         size=20,
                         weight=ft.FontWeight.BOLD,
                         color=PRIMARY_BLUE,
                     ),
                     ft.Text(
-                        "Arrastra la barra para explorar la hora:",
+                        "Drag the slider to explore the time:",
                         size=12,
                         color=TEXT_MUTED,
                         text_align=ft.TextAlign.CENTER,
@@ -179,7 +179,6 @@ class CircadianView:
                     self.time_slider,
                     self.hour_display,
                     ft.Divider(color="#D0E0F0", height=10),
-                    # Tarjeta informativa de la fase activa
                     ft.Card(
                         elevation=2,
                         bgcolor=CARD_BG,
@@ -196,14 +195,14 @@ class CircadianView:
                                         ),
                                         title=self.phase_name_text,
                                         subtitle=ft.Text(
-                                            "Estado de la Fase Circadiana",
+                                            "Circadian Phase Status",
                                             color=TEXT_MUTED,
                                             size=12,
                                         ),
                                     ),
                                     ft.Divider(color="#EBF3FA", height=5),
                                     ft.Text(
-                                        "Descripción Fisiológica:",
+                                        "Physiological Description:",
                                         weight=ft.FontWeight.BOLD,
                                         color=PRIMARY_BLUE,
                                         size=13,
@@ -211,7 +210,7 @@ class CircadianView:
                                     self.description_text,
                                     ft.Container(height=5),
                                     ft.Text(
-                                        "Recomendación para tu Bienestar:",
+                                        "Wellness Recommendation:",
                                         weight=ft.FontWeight.BOLD,
                                         color=PRIMARY_BLUE,
                                         size=13,
@@ -224,23 +223,24 @@ class CircadianView:
                 ],
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                 spacing=8,
+                scroll=ft.ScrollMode.AUTO,
             ),
         )
 
     def _build_functions_tab(self) -> ft.Container:
-        """Página Anexa 1: Funciones Principales."""
+        """Main Functions Page (Annex 1)."""
         return ft.Container(
             padding=10,
             content=ft.Column(
                 controls=[
                     ft.Text(
-                        "Funciones Principales",
+                        "Main Functions",
                         size=20,
                         weight=ft.FontWeight.BOLD,
                         color=PRIMARY_BLUE,
                     ),
                     ft.Text(
-                        "¿Cómo opera el ritmo circadiano en tu organismo?",
+                        "How does the circadian rhythm operate in your body?",
                         size=12,
                         color=TEXT_MUTED,
                     ),
@@ -253,13 +253,13 @@ class CircadianView:
                             content=ft.Column(
                                 controls=[
                                     ft.Text(
-                                        "☀️ Captación de Luz Solar",
+                                        "☀️ Sunlight Capture",
                                         weight=ft.FontWeight.BOLD,
                                         color=PRIMARY_BLUE,
                                         size=14,
                                     ),
                                     ft.Text(
-                                        "Los ojos perciben la luz matutina y envían señales al Núcleo Supraquiasmático (NSQ) en el cerebro para suprimir la melatonina e iniciar el día.",
+                                        "Eyes perceive morning light and send signals to the Suprachiasmatic Nucleus (SCN) in the brain to suppress melatonin and start the day.",
                                         size=12,
                                         color=TEXT_DARK,
                                     ),
@@ -275,13 +275,13 @@ class CircadianView:
                             content=ft.Column(
                                 controls=[
                                     ft.Text(
-                                        "🔄 Regulación Hormonal Dual",
+                                        "🔄 Dual Hormonal Regulation",
                                         weight=ft.FontWeight.BOLD,
                                         color=PRIMARY_BLUE,
                                         size=14,
                                     ),
                                     ft.Text(
-                                        "El Cortisol nos brinda energía durante el día, mientras que la Melatonina nos induce al sueño reparador al caer la noche.",
+                                        "Cortisol provides energy during the day, while Melatonin induces restful sleep at nightfall.",
                                         size=12,
                                         color=TEXT_DARK,
                                     ),
@@ -297,13 +297,13 @@ class CircadianView:
                             content=ft.Column(
                                 controls=[
                                     ft.Text(
-                                        "🌡️ Temperatura y Regeneración",
+                                        "🌡️ Temperature & Regeneration",
                                         weight=ft.FontWeight.BOLD,
                                         color=PRIMARY_BLUE,
                                         size=14,
                                     ),
                                     ft.Text(
-                                        "Durante la noche la temperatura corporal baja para permitir la limpieza celular cerebral y la consolidación del aprendizaje.",
+                                        "During the night, body temperature drops to allow cerebral cellular cleanup and memory consolidation.",
                                         size=12,
                                         color=TEXT_DARK,
                                     ),
@@ -313,23 +313,24 @@ class CircadianView:
                     ),
                 ],
                 spacing=8,
+                scroll=ft.ScrollMode.AUTO,
             ),
         )
 
     def _build_variables_tab(self) -> ft.Container:
-        """Página Anexa 2: Variables que lo desequilibran."""
+        """Disbalancing Variables Page (Annex 2)."""
         return ft.Container(
             padding=10,
             content=ft.Column(
                 controls=[
                     ft.Text(
-                        "Variables que lo desequilibran",
+                        "Disbalancing Factors",
                         size=20,
                         weight=ft.FontWeight.BOLD,
                         color=PRIMARY_BLUE,
                     ),
                     ft.Text(
-                        "Factores habituales que rompen la armonía del sueño:",
+                        "Common factors that break sleep harmony:",
                         size=12,
                         color=TEXT_MUTED,
                     ),
@@ -342,13 +343,13 @@ class CircadianView:
                             content=ft.Column(
                                 controls=[
                                     ft.Text(
-                                        "📱 Luz Azul Nocturna",
+                                        "📱 Nighttime Blue Light",
                                         weight=ft.FontWeight.BOLD,
                                         color="#C0392B",
                                         size=14,
                                     ),
                                     ft.Text(
-                                        "Pantallas de celulares o computadoras antes de dormir engañan al cerebro haciéndole creer que aún es de día.",
+                                        "Screens from phones or computers before sleep trick the brain into thinking it is still daytime.",
                                         size=12,
                                         color=TEXT_DARK,
                                     ),
@@ -364,13 +365,13 @@ class CircadianView:
                             content=ft.Column(
                                 controls=[
                                     ft.Text(
-                                        "☕ Cafeína Tardía",
+                                        "☕ Late Caffeine",
                                         weight=ft.FontWeight.BOLD,
                                         color="#C0392B",
                                         size=14,
                                     ),
                                     ft.Text(
-                                        "Consumir café o energizantes después de las 2:00 P.M. bloquea los receptores de adenosina que causan somnolencia natural.",
+                                        "Consuming coffee or energy drinks after 2:00 P.M. blocks adenosine receptors that cause natural sleepiness.",
                                         size=12,
                                         color=TEXT_DARK,
                                     ),
@@ -386,13 +387,13 @@ class CircadianView:
                             content=ft.Column(
                                 controls=[
                                     ft.Text(
-                                        "⏰ Horarios Irregulares",
+                                        "⏰ Irregular Schedules",
                                         weight=ft.FontWeight.BOLD,
                                         color="#C0392B",
                                         size=14,
                                     ),
                                     ft.Text(
-                                        "Dormir y despertar a horas muy variables genera 'Jet Lag social' y desorienta la secreción hormonal.",
+                                        "Sleeping and waking up at very variable times generates 'social jet lag' and disorients hormone secretion.",
                                         size=12,
                                         color=TEXT_DARK,
                                     ),
@@ -402,11 +403,66 @@ class CircadianView:
                     ),
                 ],
                 spacing=8,
+                scroll=ft.ScrollMode.AUTO,
+            ),
+        )
+
+    def _build_songs_tab(self) -> ft.Container:
+        """Songs Tab: Consumes data from the API and maps it via a for loop."""
+        songs_list_view = ft.ListView(expand=1, spacing=10, padding=10)
+        
+        # Fetch entities from the API
+        songs = fetch_songs_from_api()
+
+        if not songs:
+            songs_list_view.controls.append(
+                ft.Text("Could not load songs from API or list is empty.", color=TEXT_MUTED, size=13)
+            )
+        else:
+            # Loop through entities as requested and populate UI via for loop
+            for song in songs:
+                card_item = ft.Card(
+                    elevation=1,
+                    bgcolor=CARD_BG,
+                    content=ft.Container(
+                        padding=12,
+                        content=ft.Column(
+                            controls=[
+                                ft.Text(f"🎵 {song.title}", weight=ft.FontWeight.BOLD, color=PRIMARY_BLUE, size=14),
+                                ft.Text(f"Target Phase: {song.target_phase}", size=12, color=TEXT_DARK),
+                                ft.Text(f"Frequency: {song.frequency} | Duration: {song.duration}", size=11, color=TEXT_MUTED),
+                                ft.Text(song.description, size=11, color=TEXT_DARK),
+                            ],
+                            spacing=4,
+                        ),
+                    ),
+                )
+                songs_list_view.controls.append(card_item)
+
+        return ft.Container(
+            padding=10,
+            content=ft.Column(
+                controls=[
+                    ft.Text(
+                        "API Songs & Frequencies",
+                        size=20,
+                        weight=ft.FontWeight.BOLD,
+                        color=PRIMARY_BLUE,
+                    ),
+                    ft.Text(
+                        "Tracks fetched dynamically from production API:",
+                        size=12,
+                        color=TEXT_MUTED,
+                    ),
+                    ft.Container(height=5),
+                    songs_list_view,
+                ],
+                expand=True,
             ),
         )
 
     def switch_tab(self, tab_index: int) -> None:
-        """Función interna para cambiar de vista al hacer clic en los botones de navegación."""
+        """Internal function to switch views on navigation clicks."""
         if tab_index == 0:
             self.body_container.content = self._build_home_tab()
         elif tab_index == 1:
@@ -415,37 +471,41 @@ class CircadianView:
             self.body_container.content = self._build_functions_tab()
         elif tab_index == 3:
             self.body_container.content = self._build_variables_tab()
+        elif tab_index == 4:
+            self.body_container.content = self._build_songs_tab()
         self.body_container.update()
 
     def create_nav_pill(self, text: str, icon, index: int) -> ft.Container:
-        """Crea un botón de navegación personalizado con diseño tipo píldora pastel."""
+        """Creates a custom pastel pill navigation button."""
         return ft.Container(
             content=ft.Row(
                 [
-                    ft.Icon(icon, size=16, color=PRIMARY_BLUE),
-                    ft.Text(text, size=12, weight=ft.FontWeight.BOLD, color=PRIMARY_BLUE),
+                    ft.Icon(icon, size=14, color=PRIMARY_BLUE),
+                    ft.Text(text, size=11, weight=ft.FontWeight.BOLD, color=PRIMARY_BLUE),
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
-                spacing=4,
+                spacing=2,
             ),
-            padding=8,
+            padding=6,
             bgcolor=PASTEL_CREAM,
-            border_radius=10,
+            border_radius=8,
             on_click=lambda e: self.switch_tab(index),
         )
 
     def build(self) -> ft.Column:
-        """Ensambla la barra de navegación personalizada y el contenedor principal."""
+        """Assembles the custom navigation bar and main body container supporting Web and Desktop."""
         self.body_container.content = self._build_home_tab()
 
+        # Navigation bar accommodating all sections cleanly for both web and desktop viewports
         nav_bar = ft.Row(
             controls=[
-                self.create_nav_pill("Inicio", ft.Icons.HOME_ROUNDED, 0),
-                self.create_nav_pill("Simulador", ft.Icons.ACCESS_TIME_ROUNDED, 1),
-                self.create_nav_pill("Funciones", ft.Icons.AUTO_AWESOME_ROUNDED, 2),
-                self.create_nav_pill("Desequilibrios", ft.Icons.WARNING_AMBER_ROUNDED, 3),
+                self.create_nav_pill("Home", ft.Icons.HOME_ROUNDED, 0),
+                self.create_nav_pill("Simulator", ft.Icons.ACCESS_TIME_ROUNDED, 1),
+                self.create_nav_pill("Functions", ft.Icons.AUTO_AWESOME_ROUNDED, 2),
+                self.create_nav_pill("Factors", ft.Icons.WARNING_AMBER_ROUNDED, 3),
+                self.create_nav_pill("Songs", ft.Icons.MUSIC_NOTE_ROUNDED, 4),
             ],
-            alignment=ft.MainAxisAlignment.SPACE_AROUND,
+            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
         )
 
         return ft.Column(
@@ -454,18 +514,21 @@ class CircadianView:
         )
 
     def handle_slider_change(self, e: ft.ControlEvent) -> None:
-        """Manejador de evento interactivo cuando cambia la hora en el slider."""
+        """Interactive event handler when the slider hour changes."""
         selected_hour = int(e.control.value)
         self.update_phase_display(selected_hour)
 
     def update_phase_display(self, hour: int) -> None:
-        """Actualiza el contenido de los textos usando formato regular de 12 horas (A.M. / P.M.)."""
+        """Updates text contents using regular 12-hour format (A.M. / P.M.)."""
         current_phase: CircadianPhase = self.tracker.get_current_phase(hour)
         formatted_time = self.tracker.format_to_12h(hour)
 
-        self.hour_display.value = f"Hora Seleccionada: {formatted_time}"
+        self.hour_display.value = f"Selected Time: {formatted_time}"
         self.phase_name_text.value = current_phase.name
         self.description_text.value = current_phase.description
         self.recommendation_text.value = current_phase.recommendation
 
-        self.page.update()
+        try:
+            self.page.update()
+        except Exception:
+            pass
